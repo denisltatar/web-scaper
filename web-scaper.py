@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 # https://realpython.com/beautiful-soup-web-scraper-python/#why-scrape-the-web
+# This website is great for getting started!
 
 URL = 'https://finance.yahoo.com/quote/GME?.tsrc=applewf'
 page = requests.get(URL)
