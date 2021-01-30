@@ -1,8 +1,18 @@
 import requests
 from bs4 import BeautifulSoup
 
+# Importing materials for creating out GUI
+# Creating a simple GUI: https://realpython.com/pysimplegui-python/
+# Yt vid: https://www.youtube.com/watch?v=jE-SpRI3K5g
+import tkinter as tk
+from tkinter import filedialog, Text
+import os
+
+
+
 # https://realpython.com/beautiful-soup-web-scraper-python/#why-scrape-the-web
 # This website is great for getting started!
+
 
 # GME stock
 URL = 'https://finance.yahoo.com/quote/GME?.tsrc=applewf'
@@ -44,17 +54,19 @@ def stockInfoExtract(url, stockNum):
     finalPrice = pricePt2[0]
 
     # Saving the after hour price value
+    """
     afterPrice = str(soup.find(class_="C($primaryColor) Fz(24px) Fw(b)"))
     afterPricePt1 = afterPrice.split(">", 1)
     afterPricePt2 = afterPricePt1[1].split("<")
     finalAfterPrice = afterPricePt2[0]
+    """
 
     # Output of our information
     print("########### Stock " + str(stockNum) + " ###########")
     print("SOURCE: " + siteName)
     print("COMPANY + TICKER: " + finalTitle)
     print("PRICE: " + "$" + finalPrice)
-    print("AFTER HRS PRICE: " + "$" + finalAfterPrice)
+    # print("AFTER HRS PRICE: " + "$" + finalAfterPrice)
     print("\n")
 
 
@@ -68,38 +80,20 @@ stockInfoExtract(URL2, stockNum)
 stockNum += 1
 stockInfoExtract(URL3, stockNum)
 
-"""
-print("########### Stock " + str(stockNum) + " ###########")
-# Printing the source name
-arrayWeb = URL.split('/')
-arraySite = arrayWeb[2].split('.')
-siteName = arraySite[1] + " " + arraySite[0]
+# Adding GUI Stuff
+# Creating our root
+root = tk.Tk()
 
-# Saving the Ticker
-title = str(soup.find(class_='D(ib) Fz(18px)'))
-titlePt1 = title.split(">", 1)
-titlePt2 = titlePt1[1].split("<")
-finalTitle = titlePt2[0]
+# Updating the look of our canvas
+canvas = tk.Canvas(root, height=700, width=700, bg="#04407d")
+# Attaching our canvas changes
+canvas.pack()
 
-# Saving the price value
-price = soup.find(class_='Trsdu(0.3s) Fw(b) Fz(36px) Mb(-4px) D(ib)')
-priceStr = str(price)
-pricePt1 = priceStr.split(">", 1)
-pricePt2 = pricePt1[1].split("<")
-finalPrice = pricePt2[0]
+# Creating our search button
+search = tk.Button(root, text="Search", padx=10, pady=5, fg="white", bg="#04407d", command=stockInfoExtract(URL, stockNum))
+search.pack()
 
-# Saving the after hour price value
-afterPrice = str(soup.find(class_="C($primaryColor) Fz(24px) Fw(b)"))
-afterPricePt1 = afterPrice.split(">", 1)
-afterPricePt2 = afterPricePt1[1].split("<")
-finalAfterPrice = afterPricePt2[0]
 
-# Increasing our stock num
-stockNum += 1
 
-# Output of our information
-print("SOURCE: " + siteName)
-print("COMPANY + TICKER: " + finalTitle)
-print("PRICE: " + "$" + finalPrice)
-print("AFTER HRS PRICE: " + "$" + finalAfterPrice)
-"""
+# Running our GUI
+root.mainloop()
